@@ -43,3 +43,17 @@ If your question asks for **Student**, **Product**, **Employee**, etc.:
 2. **Frontend (`frontend/src/`):**
    - In `services/ItemService.js`, update `API_URL` to `http://localhost:8080/api/students`.
    - In `App.vue`, update form inputs, table headers, and fields to match your entity properties.
+
+---
+
+## 3. Java Servlet Project (`servlet-flow/`)
+
+Includes the complete Apache Tomcat 9 Java Servlet lab exam template:
+
+- **Folder structure:** `servlet-flow/index.html` + `servlet-flow/WEB-INF/web.xml` + `servlet-flow/WEB-INF/HelloServlet.java`
+- **Cheatsheet:** [`servlet-flow/SERVLET_EXAM_CHEATSHEET.md`](./servlet-flow/SERVLET_EXAM_CHEATSHEET.md) covering:
+  - Linux/Ubuntu vs Windows commands
+  - `javac -cp ...` compilation commands
+  - `web.xml` mapping tags explained
+  - Handling `doGet`, `doPost`, anchor links `<a>`, and preventing HTTP 405 / 404 / 500 errors.
+
