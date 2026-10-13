@@ -1,59 +1,94 @@
-# Fullstack CRUD Starter Template (Spring Boot + MongoDB + Vue.js)
+# Web Application Development (WAD) Lab & Starter Templates
 
-A production-ready, clean, plug-and-play template for fullstack CRUD applications.
-
-## Architecture
-
-- **Backend:** Spring Boot (Java 21, Maven), Spring Data MongoDB, Lombok, Spring Web
-- **Frontend:** Vue.js 3 (Composition API / `<script setup>`), Vite, Axios
-- **Database:** MongoDB (`mongodb://localhost:27017/my_crud_db`)
+A fullstack starter kit and reference repository containing ready-to-run templates for **Spring Boot + MongoDB + Vue 3** fullstack CRUD and **Apache Tomcat 9 Java Servlet** workflows.
 
 ---
 
-## Quick Start
+## Repository Structure
 
-### 1. Run the Backend (Spring Boot)
+```
+.
+├── backend/            # Spring Boot REST API (Java 21, Maven, Spring Data MongoDB)
+├── frontend/           # Vue 3 Frontend (Vite, Axios, minimal composition setup)
+├── servlet-flow/       # Java Servlet Tomcat 9 setup (web.xml, HelloServlet, HTML)
+└── README.md
+```
+
+---
+
+## 1. Fullstack CRUD (Spring Boot + MongoDB + Vue.js)
+
+### Tech Stack
+- **Backend:** Spring Boot, Spring Data MongoDB, Lombok, Spring Web MVC
+- **Database:** MongoDB (`mongodb://localhost:27017/my_crud_db`)
+- **Frontend:** Vue 3 (`<script setup>`, Composition API), Vite, Axios
+
+### Running the Backend
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
-Backend will start on: **`http://localhost:8080`**  
-REST Endpoint: **`http://localhost:8080/api/items`**
+- API Base URL: `http://localhost:8080/api/items`
+- Ports: `8080` (Spring Boot), `27017` (MongoDB)
 
-### 2. Run the Frontend (Vue.js)
+### API Endpoints
+| HTTP Method | Route | Description |
+|:---|:---|:---|
+| `GET` | `/api/items` | Retrieve all items |
+| `GET` | `/api/items/{id}` | Retrieve single item by ID |
+| `POST` | `/api/items` | Create a new item |
+| `PUT` | `/api/items/{id}` | Update existing item |
+| `DELETE` | `/api/items/{id}` | Delete item by ID |
+
+### Running the Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Frontend will start on: **`http://localhost:5173`**
+- Dev Server: `http://localhost:5173`
+
+### Quick Adaptation for Different Entities
+To convert `Item` into another entity (e.g., `Student`, `Product`, `Task`):
+1. **Model:** Rename/edit `backend/src/main/java/com/example/crud/model/Item.java` and adjust fields.
+2. **Repository:** Update `ItemRepository.java` generics to match the entity.
+3. **Service & Controller:** Update method signatures and `@RequestMapping` path in `ItemService.java` & `ItemController.java`.
+4. **Frontend:** Adjust payload fields in `frontend/src/App.vue` and endpoint URL in `frontend/src/services/ItemService.js`.
 
 ---
 
-## How to Customize for Any Exam / Requirement in 2 Minutes
+## 2. Java Servlet Project (`servlet-flow/`)
 
-If your question asks for **Student**, **Product**, **Employee**, etc.:
+A standalone Apache Tomcat 9 deployment descriptor pattern for servlet execution and parameter handling.
 
-1. **Backend (`backend/src/main/java/com/example/crud/`):**
-   - Rename `model/Item.java` to `model/Student.java` and change fields (e.g. `name`, `email`, `department`).
-   - Rename `repository/ItemRepository.java` to `repository/StudentRepository.java`.
-   - Update `service/ItemService.java` to use the new entity and repository.
-   - Update `controller/ItemController.java` mapping to `@RequestMapping("/api/students")`.
+### Directory Layout
+```
+servlet-flow/
+├── index.html
+├── SERVLET_EXAM_CHEATSHEET.md
+└── WEB-INF/
+    ├── web.xml
+    └── HelloServlet.java
+```
 
-2. **Frontend (`frontend/src/`):**
-   - In `services/ItemService.js`, update `API_URL` to `http://localhost:8080/api/students`.
-   - In `App.vue`, update form inputs, table headers, and fields to match your entity properties.
+### Key Highlights
+- **Deployment Descriptor (`web.xml`):** Configures `<servlet>`, `<servlet-mapping>`, and `<welcome-file-list>`.
+- **Handling GET vs POST:** Demonstrates `doGet()` handling for anchor tags and URL parameters alongside `doPost()` form handling.
+- **Cheatsheet:** Detailed guide in [`servlet-flow/SERVLET_EXAM_CHEATSHEET.md`](servlet-flow/SERVLET_EXAM_CHEATSHEET.md) covering compilation via `javac`, common status codes (`404`, `405`, `500`), and Linux/Ubuntu vs Windows commands.
 
 ---
 
-## 3. Java Servlet Project (`servlet-flow/`)
+## Quick Download via cURL
 
-Includes the complete Apache Tomcat 9 Java Servlet lab exam template:
+To download and extract this entire repository as a `.zip` archive:
 
-- **Folder structure:** `servlet-flow/index.html` + `servlet-flow/WEB-INF/web.xml` + `servlet-flow/WEB-INF/HelloServlet.java`
-- **Cheatsheet:** [`servlet-flow/SERVLET_EXAM_CHEATSHEET.md`](./servlet-flow/SERVLET_EXAM_CHEATSHEET.md) covering:
-  - Linux/Ubuntu vs Windows commands
-  - `javac -cp ...` compilation commands
-  - `web.xml` mapping tags explained
-  - Handling `doGet`, `doPost`, anchor links `<a>`, and preventing HTTP 405 / 404 / 500 errors.
+```bash
+# Download
+curl -L -o crud.zip "https://github.com/blackscythe123/crud/archive/refs/heads/main.zip"
 
+# Linux / macOS
+unzip crud.zip && cd crud-main
+
+# Windows PowerShell
+Expand-Archive -Path crud.zip -DestinationPath . ; cd crud-main
+```
