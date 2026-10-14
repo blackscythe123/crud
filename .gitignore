@@ -15,10 +15,10 @@ dist-ssr/
 
 # Java / Maven
 target/
-*.class
 *.jar
 *.war
 .mvn/wrapper/maven-wrapper.jar
+!**/classes/*.class
 
 # Logs
 *.log
