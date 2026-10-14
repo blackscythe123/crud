@@ -1,14 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ItemsLayout from '../views/ItemsLayout.vue'
 import ListView from '../views/ListView.vue'
 import CreateView from '../views/CreateView.vue'
 import EditView from '../views/EditView.vue'
 import DetailView from '../views/DetailView.vue'
 
 const routes = [
-  { path: '/', component: ListView },
-  { path: '/add', component: CreateView },
-  { path: '/edit/:id', component: EditView },
-  { path: '/item/:id', component: DetailView }
+  { path: '/', redirect: '/items' },
+  {
+    path: '/items',
+    component: ItemsLayout,
+    children: [
+      { path: '', component: ListView },
+      { path: 'add', component: CreateView },
+      { path: 'edit/:id', component: EditView },
+      { path: ':id', component: DetailView }
+    ]
+  }
 ]
 
 const router = createRouter({
