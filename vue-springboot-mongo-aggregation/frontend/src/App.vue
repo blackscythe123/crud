@@ -34,6 +34,7 @@ const loadAnalytics = async () => {
 const saveItem = async () => {
   if (isEditing.value) {
     await ItemService.update(form.value.id, {
+      id: form.value.id,
       name: form.value.name,
       description: form.value.description,
       category: form.value.category,
@@ -42,6 +43,7 @@ const saveItem = async () => {
     });
   } else {
     await ItemService.create({
+      id: form.value.id,
       name: form.value.name,
       description: form.value.description,
       category: form.value.category,
@@ -84,8 +86,13 @@ onMounted(loadData);
 <template>
   <h2>Item Management and MongoDB Aggregation Analytics</h2>
 
-  <h3>{{ isEditing ? 'Edit Item' : 'Add New Item' }}</h3>
+  <h3>{{ isEditing ? 'Edit Item (PUT)' : 'Add New Item (POST)' }}</h3>
   <form @submit.prevent="saveItem">
+    <label>Custom ID (Optional):</label>
+    <br>
+    <input v-model="form.id" placeholder="ID (e.g. 101 or leave blank for auto)" :disabled="isEditing" />
+    <br><br>
+
     <label>Name:</label>
     <br>
     <input v-model="form.name" placeholder="Name" required />
@@ -111,13 +118,13 @@ onMounted(loadData);
     <input v-model.number="form.quantity" type="number" placeholder="Quantity" required />
     <br><br>
 
-    <button type="submit">{{ isEditing ? 'Update Item' : 'Create Item' }}</button>
+    <button type="submit">{{ isEditing ? 'Update Item (PUT)' : 'Create Item (POST)' }}</button>
     <button type="button" v-if="isEditing" @click="resetForm">Cancel</button>
   </form>
 
   <hr>
 
-  <h3>Fetch Single Item By ID</h3>
+  <h3>Fetch Single Item By ID (GET /api/items/:id)</h3>
   <input v-model="searchId" placeholder="Enter Item ID" />
   <button type="button" @click="fetchSingleItem(searchId)">Fetch Detail</button>
 
@@ -169,7 +176,7 @@ onMounted(loadData);
 
   <hr>
 
-  <h3>Items List</h3>
+  <h3>Items List (GET /api/items)</h3>
   <button type="button" @click="loadData">Refresh All</button>
   <br><br>
 

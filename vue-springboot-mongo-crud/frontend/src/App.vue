@@ -21,12 +21,14 @@ const loadItems = async () => {
 const saveItem = async () => {
   if (isEditing.value) {
     await ItemService.update(form.value.id, {
+      id: form.value.id,
       name: form.value.name,
       description: form.value.description,
       price: form.value.price
     });
   } else {
     await ItemService.create({
+      id: form.value.id,
       name: form.value.name,
       description: form.value.description,
       price: form.value.price
@@ -69,6 +71,11 @@ onMounted(loadItems);
 
   <h3>{{ isEditing ? 'Edit Item' : 'Add New Item' }}</h3>
   <form @submit.prevent="saveItem">
+    <label>Custom ID (Optional):</label>
+    <br>
+    <input v-model="form.id" placeholder="ID (e.g. 101 or leave blank for auto)" :disabled="isEditing" />
+    <br><br>
+
     <label>Name:</label>
     <br>
     <input v-model="form.name" placeholder="Name" required />
@@ -84,13 +91,13 @@ onMounted(loadItems);
     <input v-model.number="form.price" type="number" step="0.01" placeholder="Price" required />
     <br><br>
 
-    <button type="submit">{{ isEditing ? 'Update Item' : 'Create Item' }}</button>
+    <button type="submit">{{ isEditing ? 'Update Item (PUT)' : 'Create Item (POST)' }}</button>
     <button type="button" v-if="isEditing" @click="resetForm">Cancel</button>
   </form>
 
   <hr>
 
-  <h3>Fetch Single Item By ID</h3>
+  <h3>Fetch Single Item By ID (GET /api/items/:id)</h3>
   <input v-model="searchId" placeholder="Enter Item ID" />
   <button type="button" @click="fetchSingleItem(searchId)">Fetch Detail</button>
 
@@ -111,7 +118,7 @@ onMounted(loadItems);
 
   <hr>
 
-  <h3>Item List</h3>
+  <h3>Item List (GET /api/items)</h3>
   <button type="button" @click="loadItems">Refresh List</button>
   <br><br>
 

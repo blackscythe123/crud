@@ -7,6 +7,7 @@ const router = useRouter();
 const itemStore = useItemStore();
 
 const form = ref({
+  id: '',
   name: '',
   description: '',
   price: 0
@@ -14,6 +15,7 @@ const form = ref({
 
 const submitForm = async () => {
   await itemStore.addItem({
+    id: form.value.id || null,
     name: form.value.name,
     description: form.value.description,
     price: form.value.price
@@ -23,12 +25,17 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <h2>Add New Item</h2>
+  <h2>Add New Item (POST /api/items)</h2>
 
   <router-link to="/">Back to List</router-link>
   <br><br>
 
   <form @submit.prevent="submitForm">
+    <label>Custom ID (Optional):</label>
+    <br>
+    <input v-model="form.id" placeholder="ID (e.g. 101 or leave blank for auto)" />
+    <br><br>
+
     <label>Name:</label>
     <br>
     <input v-model="form.name" placeholder="Name" required />
