@@ -1,3 +1,16 @@
+/*
+COMPILE FROM INSIDE WEB-INF DIRECTORY:
+Linux:   javac -cp "../../../lib/*" -d classes ItemServlet.java
+Windows: javac -cp "../../../lib/*" -d classes ItemServlet.java
+
+RUN TOMCAT:
+Linux:   ../../../bin/startup.sh
+Windows: ..\..\..\bin\startup.bat
+
+URL:
+http://localhost:8080/servlet-basic/index.html
+*/
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
