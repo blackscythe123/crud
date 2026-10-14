@@ -1,100 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Form Validation Demo</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-        input:focus {
-            outline: 2px solid black;
-        }
-        input:invalid {
-            border: 1px solid gray;
-        }
-        p::before {
-            content: "• ";
-        }
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 4px 8px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAD Unit 1 & 2 Complete Reference</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h2>Item Entry Form</h2>
+    <header class="app-header">
+        <h1>Student Registration & DOM Reference</h1>
+        <nav class="nav-bar">
+            <a href="#form-section">Registration Form</a>
+            <a href="#table-section">Records Table</a>
+            <a href="#dom-section">DOM Utilities</a>
+            <a href="#object-section">Object Operations</a>
+        </nav>
+    </header>
 
-    <form id="itemForm" onsubmit="return validateAndSubmit(event)">
-        <label>Name:</label><br>
-        <input type="text" id="name" required><br><br>
+    <div class="fixed-badge animated-badge">Lab Ready</div>
 
-        <label>Description:</label><br>
-        <input type="text" id="description" required><br><br>
+    <main class="container">
+        <section id="form-section" class="card">
+            <h2>Student Registration Form</h2>
+            <form id="registrationForm" onsubmit="handleFormSubmit(event)">
+                <fieldset>
+                    <legend>Personal & Academic Details</legend>
 
-        <label>Price:</label><br>
-        <input type="text" id="price" required><br><br>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="rollNo">Roll Number:</label>
+                            <input type="text" id="rollNo" name="rollNo" placeholder="e.g. 21CS001" required autofocus>
+                        </div>
 
-        <button type="submit">Submit</button>
-    </form>
+                        <div class="form-group">
+                            <label for="fullName">Full Name:</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter full name" required>
+                        </div>
 
-    <p id="errorMsg"></p>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" placeholder="Min 6 characters" minlength="6" required>
+                        </div>
 
-    <hr>
+                        <div class="form-group">
+                            <label for="email">Email Address:</label>
+                            <input type="email" id="email" name="email" placeholder="student@example.com" required>
+                        </div>
 
-    <h3>Submitted Items</h3>
-    <table id="itemTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
+                        <div class="form-group">
+                            <label for="phone">Phone Number:</label>
+                            <input type="tel" id="phone" name="phone" placeholder="10-digit number" pattern="[0-9]{10}" required>
+                        </div>
 
-    <script>
-        function validateAndSubmit(e) {
-            e.preventDefault();
+                        <div class="form-group">
+                            <label for="age">Age:</label>
+                            <input type="number" id="age" name="age" min="1" max="100" value="20" required>
+                        </div>
 
-            const name = document.getElementById("name").value.trim();
-            const description = document.getElementById("description").value.trim();
-            const price = document.getElementById("price").value.trim();
-            const errorMsg = document.getElementById("errorMsg");
+                        <div class="form-group">
+                            <label for="dob">Date of Birth:</label>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
 
-            errorMsg.innerText = "";
+                        <div class="form-group">
+                            <label for="regTime">Registration Time:</label>
+                            <input type="time" id="regTime" name="regTime">
+                        </div>
 
-            if (name.length < 2) {
-                errorMsg.innerText = "Name must be at least 2 characters.";
-                return false;
-            }
+                        <div class="form-group">
+                            <label for="gradMonth">Graduation Month:</label>
+                            <input type="month" id="gradMonth" name="gradMonth">
+                        </div>
 
-            const priceNum = parseFloat(price);
-            if (isNaN(priceNum) || priceNum <= 0) {
-                errorMsg.innerText = "Price must be a positive number.";
-                return false;
-            }
+                        <div class="form-group">
+                            <label for="themeColor">Favorite Color:</label>
+                            <input type="color" id="themeColor" name="themeColor" value="#3498db">
+                        </div>
 
-            const tbody = document.getElementById("tableBody");
-            const row = document.createElement("tr");
+                        <div class="form-group full-width">
+                            <label for="skillRating">Proficiency Rating: <span id="ratingDisplay">75</span>%</label>
+                            <input type="range" id="skillRating" name="skillRating" min="0" max="100" value="75" oninput="updateRangeDisplay(this.value)">
+                        </div>
 
-            row.innerHTML = "<td>" + name + "</td>" +
-                            "<td>" + description + "</td>" +
-                            "<td>" + priceNum.toFixed(2) + "</td>" +
-                            "<td><button onclick='deleteRow(this)'>Delete</button></td>";
+                        <div class="form-group">
+                            <label>Gender:</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="gender" value="Male" checked> Male</label>
+                                <label><input type="radio" name="gender" value="Female"> Female</label>
+                                <label><input type="radio" name="gender" value="Other"> Other</label>
+                            </div>
+                        </div>
 
-            tbody.appendChild(row);
+                        <div class="form-group">
+                            <label>Technical Skills:</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="skills" value="HTML" checked> HTML</label>
+                                <label><input type="checkbox" name="skills" value="CSS" checked> CSS</label>
+                                <label><input type="checkbox" name="skills" value="JavaScript" checked> JavaScript</label>
+                                <label><input type="checkbox" name="skills" value="Java"> Java</label>
+                            </div>
+                        </div>
 
-            document.getElementById("itemForm").reset();
-            return true;
-        }
+                        <div class="form-group">
+                            <label for="department">Department:</label>
+                            <select id="department" name="department" required>
+                                <option value="">Select Department</option>
+                                <option value="CSE" selected>Computer Science & Engineering</option>
+                                <option value="IT">Information Technology</option>
+                                <option value="ECE">Electronics & Communication</option>
+                                <option value="MECH">Mechanical Engineering</option>
+                            </select>
+                        </div>
 
-        function deleteRow(btn) {
-            btn.parentElement.parentElement.remove();
-        }
-    </script>
+                        <div class="form-group">
+                            <label for="courseTrack">Specialization (Datalist):</label>
+                            <input list="courses" id="courseTrack" name="courseTrack" placeholder="Choose or type track">
+                            <datalist id="courses">
+                                <option value="Web Technologies">
+                                <option value="Cloud Computing">
+                                <option value="Artificial Intelligence">
+                                <option value="Data Analytics">
+                            </datalist>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="address">Address:</label>
+                            <textarea id="address" name="address" rows="3" placeholder="Street, City, State, Pincode"></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="resume">Upload Document / Resume:</label>
+                            <input type="file" id="resume" name="resume">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit Registration</button>
+                        <button type="reset" class="btn btn-secondary" id="resetBtn">Reset Form</button>
+                    </div>
+                </fieldset>
+            </form>
+
+            <div id="formAlert" class="alert-box"></div>
+        </section>
+
+        <section id="table-section" class="card">
+            <h2>Registered Students Table</h2>
+            <div class="table-container">
+                <table id="recordsTable">
+                    <caption>Student Enrollment Records</caption>
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Gender</th>
+                            <th>Skills</th>
+                            <th>Rating</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">Total Registered Records</td>
+                            <td id="totalRecordCount">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <section id="dom-section" class="card">
+            <h2>Interactive DOM Manipulation Lab</h2>
+
+            <div class="dom-grid">
+                <div class="dom-box">
+                    <h3>Mouseover & Mouseout Event</h3>
+                    <img id="bulbImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%237f8c8d'><path d='M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm-3 18h6v1c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1v-1z'/></svg>" alt="Light Bulb" onmouseover="turnBulbOn()" onmouseout="turnBulbOff()">
+                    <p id="bulbStatus">Hover over the bulb to turn it ON</p>
+                </div>
+
+                <div class="dom-box">
+                    <h3>Countdown Timer (Interval)</h3>
+                    <div id="timerDisplay" class="counter-display">10</div>
+                    <div class="btn-cluster">
+                        <button type="button" class="btn btn-sm" onclick="startTimer()">Start</button>
+                        <button type="button" class="btn btn-sm" onclick="resetTimer()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="dom-box">
+                    <h3>Dynamic List & Swapping</h3>
+                    <button type="button" class="btn btn-sm" onclick="addListItem()">Add Node</button>
+                    <ol id="orderList">
+                        <li onclick="swapWithNext(this)">Item Alpha (Click to Swap)</li>
+                        <li onclick="swapWithNext(this)">Item Beta (Click to Swap)</li>
+                        <li onclick="swapWithNext(this)">Item Gamma (Click to Swap)</li>
+                    </ol>
+                </div>
+
+                <div class="dom-box">
+                    <h3>Collapse & Expand Element</h3>
+                    <button type="button" class="btn btn-sm" onclick="toggleCollapse('collapsibleContent', this)">Click to Collapse</button>
+                    <div id="collapsibleContent" class="collapse-panel">
+                        <p>This panel can be toggled using JavaScript DOM style display manipulation.</p>
+                    </div>
+                </div>
+
+                <div class="dom-box">
+                    <h3>Dynamic Array Menu</h3>
+                    <ul id="dynamicMenuList" class="styled-list"></ul>
+                </div>
+
+                <div class="dom-box">
+                    <h3>Mouse Trail Effect</h3>
+                    <button type="button" class="btn btn-sm" onclick="toggleMouseTrail(this)">Enable Mouse Trail</button>
+                    <p id="trailStatus">Trail is currently disabled.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="object-section" class="card">
+            <h2>JavaScript Object Operations Lab</h2>
+            <div class="btn-cluster">
+                <button type="button" class="btn btn-primary" onclick="runStudentObjectDemo()">Execute Student Object Methods</button>
+            </div>
+            <pre id="objectOutput" class="console-box">Click "Execute Student Object Methods" to view object transformations, keys, values, iterations, and JSON conversions...</pre>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>WAD Web Technologies Reference Kit</p>
+    </footer>
 </body>
 </html>
