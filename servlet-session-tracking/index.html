@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Servlet Session & State Tracking</title>
+</head>
+<body>
+    <h2>Session Tracking & Redirect Demo</h2>
+
+    <fieldset>
+        <legend>1. Login & Establish HttpSession & Cookies</legend>
+        <form action="session-login" method="post">
+            <label>Username:</label><br>
+            <input type="text" name="username" required><br><br>
+
+            <label>Role:</label><br>
+            <input type="text" name="role" value="Student" required><br><br>
+
+            <button type="submit">Login (Stores Session & Sets Cookie & Redirects)</button>
+        </form>
+    </fieldset>
+
+    <br>
+
+    <fieldset>
+        <legend>2. Access Protected Profile</legend>
+        <a href="session-profile">View Profile (Reads HttpSession & Cookies)</a>
+    </fieldset>
+
+    <br>
+
+    <fieldset>
+        <legend>3. Logout & Invalidate Session</legend>
+        <a href="session-logout">Logout (Invalidates Session & Clears Cookies)</a>
+    </fieldset>
+</body>
+</html>
