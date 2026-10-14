@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Servlet JDBC MySQL</title>
+</head>
+<body>
+    <h2>JDBC Item Database</h2>
+
+    <form action="jdbc-item" method="post">
+        <input type="hidden" name="action" value="insert">
+        <label>Name:</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>Description:</label><br>
+        <input type="text" name="description" required><br><br>
+
+        <label>Price:</label><br>
+        <input type="text" name="price" required><br><br>
+
+        <button type="submit">Insert Item</button>
+    </form>
+
+    <br><hr><br>
+
+    <form action="jdbc-item" method="post">
+        <input type="hidden" name="action" value="delete">
+        <label>ID to Delete:</label><br>
+        <input type="text" name="id" required><br><br>
+        <button type="submit">Delete Item</button>
+    </form>
+
+    <br><hr><br>
+
+    <form action="jdbc-item" method="get">
+        <button type="submit">View All Items</button>
+    </form>
+</body>
+</html>
