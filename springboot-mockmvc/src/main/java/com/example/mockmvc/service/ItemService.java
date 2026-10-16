@@ -35,4 +35,14 @@ public class ItemService {
     public void delete(String id) {
         repo.deleteById(id);
     }
+    public Item patch(String id, Item partial) {
+        Item existing = getOne(id);
+        if (existing != null) {
+            if (partial.getName() != null) existing.setName(partial.getName());
+            if (partial.getDescription() != null) existing.setDescription(partial.getDescription());
+            if (partial.getPrice() != 0) existing.setPrice(partial.getPrice());
+            return repo.save(existing);
+        }
+        return null;
+    }
 }

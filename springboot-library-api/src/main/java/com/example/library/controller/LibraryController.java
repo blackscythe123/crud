@@ -48,4 +48,10 @@ public class LibraryController {
     public ResponseEntity<List<CategoryAnalytics>> getCategoryAnalytics() {
         return ResponseEntity.ok(libraryService.getCategoryAnalytics());
     }
+    @PatchMapping("/{id}")
+    public ResponseEntity<Book> patchBook(@PathVariable String id, @RequestBody Book patch) {
+        return libraryService.patchBook(id, patch)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

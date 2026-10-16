@@ -34,6 +34,18 @@ public class CompanyService {
         return departmentRepository.save(department);
     }
 
+    public Optional<Department> patchDepartment(String id, Department patch) {
+        return departmentRepository.findById(id).map(existing -> {
+            if (patch.getName() != null) {
+                existing.setName(patch.getName());
+            }
+            if (patch.getCode() != null) {
+                existing.setCode(patch.getCode());
+            }
+            return departmentRepository.save(existing);
+        });
+    }
+
     public void deleteDepartment(String id) {
         departmentRepository.deleteById(id);
     }
@@ -52,6 +64,24 @@ public class CompanyService {
 
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
+    }
+
+    public Optional<Employee> patchEmployee(String id, Employee patch) {
+        return employeeRepository.findById(id).map(existing -> {
+            if (patch.getName() != null) {
+                existing.setName(patch.getName());
+            }
+            if (patch.getEmail() != null) {
+                existing.setEmail(patch.getEmail());
+            }
+            if (patch.getDepartmentId() != null) {
+                existing.setDepartmentId(patch.getDepartmentId());
+            }
+            if (patch.getSalary() != null) {
+                existing.setSalary(patch.getSalary());
+            }
+            return employeeRepository.save(existing);
+        });
     }
 
     public void deleteEmployee(String id) {

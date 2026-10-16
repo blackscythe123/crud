@@ -38,6 +38,13 @@ public class CompanyController {
         return companyService.createDepartment(department);
     }
 
+    @PatchMapping("/departments/{id}")
+    public ResponseEntity<Department> patchDepartment(@PathVariable String id, @RequestBody Department patch) {
+        return companyService.patchDepartment(id, patch)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/departments/{id}")
     public ResponseEntity<Void> deleteDepartment(@PathVariable String id) {
         companyService.deleteDepartment(id);
@@ -64,6 +71,13 @@ public class CompanyController {
     @PostMapping("/employees")
     public Employee createEmployee(@RequestBody Employee employee) {
         return companyService.createEmployee(employee);
+    }
+
+    @PatchMapping("/employees/{id}")
+    public ResponseEntity<Employee> patchEmployee(@PathVariable String id, @RequestBody Employee patch) {
+        return companyService.patchEmployee(id, patch)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/employees/{id}")

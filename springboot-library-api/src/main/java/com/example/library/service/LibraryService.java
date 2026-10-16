@@ -57,4 +57,14 @@ public class LibraryService {
 
         return results.getMappedResults();
     }
+    public java.util.Optional<Book> patchBook(String id, Book patch) {
+        return bookRepository.findById(id).map(existing -> {
+            if (patch.getTitle() != null) existing.setTitle(patch.getTitle());
+            if (patch.getAuthor() != null) existing.setAuthor(patch.getAuthor());
+            if (patch.getCategory() != null) existing.setCategory(patch.getCategory());
+            if (patch.getPrice() != 0) existing.setPrice(patch.getPrice());
+            if (patch.getTotalCopies() > 0) existing.setTotalCopies(patch.getTotalCopies());
+            return bookRepository.save(existing);
+        });
+    }
 }

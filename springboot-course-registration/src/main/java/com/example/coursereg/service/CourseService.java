@@ -57,4 +57,14 @@ public class CourseService {
     public List<Course> getCoursesByDepartment(String department) {
         return courseRepository.findByDepartment(department);
     }
+    public Course patchCourse(String id, Course patch) {
+        Course existing = getCourseById(id);
+        if (existing != null) {
+            if (patch.getTitle() != null) existing.setTitle(patch.getTitle());
+            if (patch.getInstructor() != null) existing.setInstructor(patch.getInstructor());
+            if (patch.getCapacity() > 0) existing.setCapacity(patch.getCapacity());
+            return courseRepository.save(existing);
+        }
+        return null;
+    }
 }

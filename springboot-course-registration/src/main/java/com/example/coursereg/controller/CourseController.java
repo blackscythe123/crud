@@ -39,4 +39,8 @@ public class CourseController {
     public Course registerStudent(@PathVariable String id, @RequestParam String studentName) {
         return courseService.registerStudent(id, studentName);
     }
+    @PatchMapping("/{id}")
+    public Course patchCourse(@PathVariable String id, @RequestBody Course course) {
+        return courseService.patchCourse(id, course);
+    }
 }

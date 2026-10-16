@@ -11,19 +11,19 @@ public class Employee {
     private String name;
     private String email;
     private String departmentId;
-    private double salary;
+    private Double salary;
 
     public Employee() {
     }
 
-    public Employee(String name, String email, String departmentId, double salary) {
+    public Employee(String name, String email, String departmentId, Double salary) {
         this.name = name;
         this.email = email;
         this.departmentId = departmentId;
         this.salary = salary;
     }
 
-    public Employee(String id, String name, String email, String departmentId, double salary) {
+    public Employee(String id, String name, String email, String departmentId, Double salary) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -63,11 +63,11 @@ public class Employee {
         this.departmentId = departmentId;
     }
 
-    public double getSalary() {
+    public Double getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 }

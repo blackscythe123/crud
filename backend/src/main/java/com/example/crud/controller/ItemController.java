@@ -38,5 +38,8 @@ public class ItemController {
     public String delete(@PathVariable String id){
         return service.delete(id);
     }
-
+    @PatchMapping("/{id}")
+    public Item patch(@PathVariable String id, @RequestBody Item item) {
+        return service.patch(id, item);
+    }
 }

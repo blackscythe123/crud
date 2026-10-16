@@ -47,4 +47,8 @@ public class HospitalController {
     public void cancelAppointment(@PathVariable String id) {
         hospitalService.cancelAppointment(id);
     }
+    @PatchMapping("/{id}")
+    public Appointment patchAppointment(@PathVariable String id, @RequestBody Appointment appointment) {
+        return hospitalService.patchAppointment(id, appointment);
+    }
 }

@@ -51,4 +51,15 @@ public class HospitalService {
     public List<Appointment> getAppointmentsByStatus(String status) {
         return appointmentRepository.findByStatus(status);
     }
+    public Appointment patchAppointment(String id, Appointment patch) {
+        Appointment existing = getAppointmentById(id);
+        if (existing != null) {
+            if (patch.getPatientName() != null) existing.setPatientName(patch.getPatientName());
+            if (patch.getDoctorName() != null) existing.setDoctorName(patch.getDoctorName());
+            if (patch.getAppointmentDate() != null) existing.setAppointmentDate(patch.getAppointmentDate());
+            if (patch.getStatus() != null) existing.setStatus(patch.getStatus());
+            return appointmentRepository.save(existing);
+        }
+        return null;
+    }
 }
