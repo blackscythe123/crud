@@ -30,6 +30,21 @@ function getDepartmentName(deptId) {
   return dept ? `${dept.name} (${dept.code})` : deptId
 }
 
+async function handlePatchEmployee(id, currentSalary) {
+  const salary = prompt('Enter new salary:', currentSalary)
+  if (!salary || Number(salary) === Number(currentSalary)) return
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    await api.patch(`/employees/${id}`, { salary: Number(salary) })
+    await fetchData()
+  } catch (err) {
+    errorMessage.value = err.message || 'Failed to patch employee'
+  } finally {
+    loading.value = false
+  }
+}
+
 async function handleDeleteEmployee(id) {
   if (!confirm('Are you sure you want to delete this employee?')) return
   loading.value = true
@@ -79,6 +94,14 @@ onMounted(() => {
             <td>{{ getDepartmentName(emp.departmentId) }}</td>
             <td>${{ Number(emp.salary || 0).toLocaleString() }}</td>
             <td>
+              <button
+                @click="handlePatchEmployee(emp.id, emp.salary)"
+                class="btn"
+                :disabled="loading"
+              >
+                Patch
+              </button>
+              &nbsp;
               <button
                 @click="handleDeleteEmployee(emp.id)"
                 class="btn danger"

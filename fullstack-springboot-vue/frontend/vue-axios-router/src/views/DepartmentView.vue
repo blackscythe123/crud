@@ -43,6 +43,21 @@ async function handleAddDepartment() {
   }
 }
 
+async function handlePatchDepartment(id, currentCode) {
+  const code = prompt('Enter new department code:', currentCode)
+  if (!code || code === currentCode) return
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    await api.patch(`/departments/${id}`, { code })
+    await fetchDepartments()
+  } catch (err) {
+    errorMessage.value = err.message || 'Failed to patch department'
+  } finally {
+    loading.value = false
+  }
+}
+
 async function handleDeleteDepartment(id) {
   if (!confirm('Are you sure you want to delete this department?')) return
   loading.value = true
@@ -115,6 +130,14 @@ onMounted(() => {
             <td>{{ dept.name }}</td>
             <td><span class="badge">{{ dept.code }}</span></td>
             <td>
+              <button
+                @click="handlePatchDepartment(dept.id, dept.code)"
+                class="btn"
+                :disabled="loading"
+              >
+                Patch
+              </button>
+              &nbsp;
               <button
                 @click="handleDeleteDepartment(dept.id)"
                 class="btn danger"

@@ -2,6 +2,7 @@
   <div class="employee-detail-page">
     <div class="header-actions">
       <router-link to="/company/employees" class="btn btn-secondary">&larr; Back to Employees</router-link>
+      <button @click="handleQuickPatchSalary" class="btn btn-warning">Quick Patch Salary</button>
     </div>
 
     <div v-if="loading" class="card">
@@ -62,6 +63,20 @@ const fetchEmployee = async () => {
   }
 }
 
+const handleQuickPatchSalary = async () => {
+  if (!employee.value) return
+  const id = route.params.id
+  const salary = prompt('New salary:', employee.value.salary)
+  if (salary !== null && salary !== '') {
+    try {
+      await api.patch(`/employees/${id}`, { salary: Number(salary) })
+      await fetchEmployee()
+    } catch (err) {
+      error.value = 'Failed to patch employee salary.'
+    }
+  }
+}
+
 onMounted(() => {
   fetchEmployee()
 })
@@ -73,6 +88,8 @@ onMounted(() => {
 }
 
 .header-actions {
+  display: flex;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
@@ -94,6 +111,11 @@ onMounted(() => {
 
 .btn-secondary {
   background-color: #64748b;
+  color: #ffffff;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
   color: #ffffff;
 }
 

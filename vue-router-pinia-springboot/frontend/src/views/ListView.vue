@@ -5,6 +5,7 @@ import { useItemStore } from '../stores/itemStore';
 
 const router = useRouter();
 const itemStore = useItemStore();
+const store = itemStore;
 const searchId = ref('');
 
 const goToSearch = () => {
@@ -19,6 +20,13 @@ const goToItem = (id) => {
 
 const deleteItem = async (id) => {
   await itemStore.removeItem(id);
+};
+
+const patchItem = async (id) => {
+  const newPrice = prompt('Enter new price:');
+  if (newPrice !== null && newPrice !== '') {
+    await store.patchItem(id, { price: Number(newPrice) });
+  }
 };
 
 onMounted(() => {
@@ -60,6 +68,7 @@ onMounted(() => {
         <td>
           <button type="button" @click="goToItem(item.id)">View / Edit</button>
           <button type="button" @click="deleteItem(item.id)">Delete</button>
+          <button type="button" @click="patchItem(item.id)">Patch</button>
         </td>
       </tr>
     </tbody>

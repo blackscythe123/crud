@@ -56,6 +56,14 @@ const deleteItem = async (id) => {
   loadItems();
 };
 
+const patchItem = async (item) => {
+  const price = prompt('Enter new price:');
+  if (price !== null && price !== '') {
+    await ItemService.patch(item.id, { price: Number(price) });
+    loadItems();
+  }
+};
+
 const fetchSingleItem = async (id) => {
   const targetId = id || searchId.value;
   if (!targetId) return;
@@ -142,6 +150,7 @@ onMounted(loadItems);
           <button type="button" @click="fetchSingleItem(item.id)">View</button>
           <button type="button" @click="editItem(item)">Edit</button>
           <button type="button" @click="deleteItem(item.id)">Delete</button>
+          <button type="button" @click="patchItem(item)">Patch</button>
         </td>
       </tr>
     </tbody>

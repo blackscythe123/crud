@@ -127,6 +127,31 @@ async function deleteItem(id) {
   }
 }
 
+async function patchItem(id, partial) {
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    const res = await fetch(`http://localhost:8080/api/items/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(partial)
+    })
+    if (!res.ok) throw new Error('Failed to patch item: ' + res.statusText)
+    await fetchAll()
+  } catch (err) {
+    errorMessage.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
+function promptPatch(item) {
+  const newPrice = prompt('Enter new price:')
+  if (newPrice !== null && newPrice !== '') {
+    patchItem(item.id, { price: Number(newPrice) })
+  }
+}
+
 function startEdit(item) {
   editForm.id = item.id
   editForm.name = item.name
@@ -253,6 +278,7 @@ onMounted(() => {
       <button @click="fetchById(item.id)">View Details</button>
       <button @click="startEdit(item)">Edit</button>
       <button @click="deleteItem(item.id)">Delete</button>
+      <button @click="promptPatch(item)">Patch</button>
       <br><br>
     </li>
   </ul>

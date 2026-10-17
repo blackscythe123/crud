@@ -75,6 +75,7 @@
               <td>{{ companyStore.getDepartmentName(emp.departmentId) }}</td>
               <td>${{ Number(emp.salary).toLocaleString() }}</td>
               <td>
+                <button @click="handlePatchEmployee(emp.id, emp.salary)" class="btn btn-warning">Patch</button>
                 <button @click="handleDelete(emp.id)" class="btn btn-danger">Delete</button>
               </td>
             </tr>
@@ -113,6 +114,13 @@ const handleSubmit = async () => {
 
 const handleDelete = async (id) => {
   await companyStore.deleteEmployee(id)
+}
+
+const handlePatchEmployee = async (id, salary) => {
+  const newSalary = prompt('New salary:', salary)
+  if (newSalary !== null && newSalary !== '') {
+    await companyStore.patchEmployee(id, { salary: Number(newSalary) })
+  }
 }
 
 onMounted(() => {
@@ -205,6 +213,18 @@ onMounted(() => {
 
 .btn-danger:hover {
   background-color: #b8282a;
+}
+
+.btn-warning {
+  background-color: #f0ad4e;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.btn-warning:hover {
+  background-color: #ec971f;
 }
 
 .table-wrapper {

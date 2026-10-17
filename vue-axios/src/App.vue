@@ -111,6 +111,26 @@ async function deleteItem(id) {
   }
 }
 
+async function patchItem(id, partial) {
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    await ItemService.patch(id, partial)
+    await fetchAll()
+  } catch (err) {
+    errorMessage.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
+function promptPatch(item) {
+  const newPrice = prompt('Enter new price:')
+  if (newPrice !== null && newPrice !== '') {
+    patchItem(item.id, { price: Number(newPrice) })
+  }
+}
+
 function startEdit(item) {
   editForm.id = item.id
   editForm.name = item.name
@@ -237,6 +257,7 @@ onMounted(() => {
       <button @click="fetchById(item.id)">View Details</button>
       <button @click="startEdit(item)">Edit</button>
       <button @click="deleteItem(item.id)">Delete</button>
+      <button @click="promptPatch(item)">Patch</button>
       <br><br>
     </li>
   </ul>

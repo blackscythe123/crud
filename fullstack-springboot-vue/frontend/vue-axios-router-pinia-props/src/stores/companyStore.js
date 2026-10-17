@@ -3,81 +3,136 @@ import api from '../services/api'
 
 export const useCompanyStore = defineStore('company', {
   state: () => ({
-    departments: [
-      { id: 1, name: 'Engineering', code: 'ENG', budget: 150000 },
-      { id: 2, name: 'Marketing', code: 'MKT', budget: 80000 },
-      { id: 3, name: 'Human Resources', code: 'HR', budget: 60000 }
-    ],
-    employees: [
-      { id: 1, name: 'Alice Smith', email: 'alice@example.com', role: 'Lead Architect', department: 'Engineering' },
-      { id: 2, name: 'Bob Jones', email: 'bob@example.com', role: 'Marketing Specialist', department: 'Marketing' },
-      { id: 3, name: 'Charlie Brown', email: 'charlie@example.com', role: 'HR Coordinator', department: 'Human Resources' }
-    ],
+    departments: [],
+    employees: [],
     loading: false,
     error: null
   }),
   getters: {
     totalDepartments: (state) => state.departments.length,
     totalEmployees: (state) => state.employees.length,
+    totalPayroll: (state) => state.employees.reduce((sum, emp) => sum + (Number(emp.salary) || 0), 0),
     totalBudget: (state) => state.departments.reduce((sum, d) => sum + Number(d.budget || 0), 0)
   },
   actions: {
     async fetchDepartments() {
       this.loading = true
+      this.error = null
       try {
-        const response = await api.getDepartments()
+        const response = await api.get('/departments')
         this.departments = response.data
-        this.error = null
       } catch (err) {
-        this.error = err.message
+        this.error = err.response?.data?.message || err.message
       } finally {
         this.loading = false
       }
     },
     async addDepartment(dept) {
-      try {
-        const response = await api.createDepartment(dept)
-        this.departments.push(response.data)
-      } catch (err) {
-        const newDept = { ...dept, id: dept.id || Date.now() }
-        this.departments.push(newDept)
-      }
+      return this.createDepartment(dept)
     },
     async removeDepartment(id) {
+      return this.deleteDepartment(id)
+    },
+    async createDepartment(data) {
+      this.loading = true
+      this.error = null
       try {
-        await api.deleteDepartment(id)
-        this.departments = this.departments.filter(d => d.id !== id)
+        const response = await api.post('/departments', data)
+        this.departments.push(response.data)
+        return response.data
       } catch (err) {
-        this.departments = this.departments.filter(d => d.id !== id)
+        this.error = err.response?.data?.message || err.message
+        throw err
+      } finally {
+        this.loading = false
+      }
+    },
+    async deleteDepartment(id) {
+      this.loading = true
+      this.error = null
+      try {
+        await api.delete(`/departments/${id}`)
+        this.departments = this.departments.filter(dept => dept.id !== id)
+      } catch (err) {
+        this.error = err.response?.data?.message || err.message
+        throw err
+      } finally {
+        this.loading = false
       }
     },
     async fetchEmployees() {
       this.loading = true
+      this.error = null
       try {
-        const response = await api.getEmployees()
+        const response = await api.get('/employees')
         this.employees = response.data
-        this.error = null
       } catch (err) {
-        this.error = err.message
+        this.error = err.response?.data?.message || err.message
       } finally {
         this.loading = false
       }
     },
     async addEmployee(emp) {
-      try {
-        const response = await api.createEmployee(emp)
-        this.employees.push(response.data)
-      } catch (err) {
-        const newEmp = { ...emp, id: emp.id || Date.now() }
-        this.employees.push(newEmp)
-      }
+      return this.createEmployee(emp)
     },
     async removeEmployee(id) {
+      return this.deleteEmployee(id)
+    },
+    async createEmployee(data) {
+      this.loading = true
+      this.error = null
       try {
-        await api.deleteEmployee(id)
-        this.employees = this.employees.filter(e => e.id !== id)
+        const response = await api.post('/employees', data)
+        this.employees.push(response.data)
+        return response.data
       } catch (err) {
-        this.employees = this.employees.filter(e => e.id !== id)
+        this.error = err.response?.data?.message || err.message
+        throw err
+      } finally {
+        this.loading = false
+      }
+    },
+    async deleteEmployee(id) {
+      this.loading = true
+      this.error = null
+      try {
+        await api.delete(`/employees/${id}`)
+        this.employees = this.employees.filter(emp => emp.id !== id)
+      } catch (err) {
+        this.error = err.response?.data?.message || err.message
+        throw err
+      } finally {
+        this.loading = false
+      }
+    },
+    async patchDepartment(id, data) {
+      this.loading = true
+      this.error = null
+      try {
+        const response = await api.patch(`/departments/${id}`, data)
+        const idx = this.departments.findIndex(dept => dept.id === id)
+        if (idx !== -1) this.departments[idx] = response.data
+        return response.data
+      } catch (err) {
+        this.error = err.response?.data?.message || err.message
+        throw err
+      } finally {
+        this.loading = false
+      }
+    },
+    async patchEmployee(id, data) {
+      this.loading = true
+      this.error = null
+      try {
+        const response = await api.patch(`/employees/${id}`, data)
+        const idx = this.employees.findIndex(emp => emp.id === id)
+        if (idx !== -1) this.employees[idx] = response.data
+        return response.data
+      } catch (err) {
+        this.error = err.response?.data?.message || err.message
+        throw err
+      } finally {
+        this.loading = false
       }
     }
   }

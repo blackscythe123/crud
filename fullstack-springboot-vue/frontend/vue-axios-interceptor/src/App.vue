@@ -35,6 +35,14 @@ async function addDepartment() {
   }
 }
 
+async function testPatchEmployeeSalary() {
+  const empId = 1
+  try {
+    await api.patch(`/employees/${empId}`, { salary: 88000 })
+  } catch (err) {
+  }
+}
+
 async function triggerError() {
   try {
     await api.get('/departments/invalid-id')
@@ -50,6 +58,7 @@ async function triggerError() {
 
     <div class="actions">
       <button @click="fetchDepartments">Fetch Departments (GET)</button>
+      <button class="btn-patch" @click="testPatchEmployeeSalary">Test PATCH Employee Salary</button>
       <button class="btn-error" @click="triggerError">Trigger 404 Error (GET)</button>
     </div>
 
@@ -117,6 +126,15 @@ button {
 
 button:hover {
   background-color: #1565c0;
+}
+
+button.btn-patch {
+  border-color: #f57c00;
+  background-color: #f57c00;
+}
+
+button.btn-patch:hover {
+  background-color: #e65100;
 }
 
 button.btn-error {

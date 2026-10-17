@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const props = defineProps(['employees', 'departments'])
-const emit = defineEmits(['create', 'delete'])
+const emit = defineEmits(['create', 'delete', 'patch'])
 
 const name = ref('')
 const email = ref('')
@@ -82,6 +82,7 @@ function getDepartmentLabel(deptId) {
             <td>{{ getDepartmentLabel(emp.departmentId) }}</td>
             <td>${{ Number(emp.salary).toLocaleString() }}</td>
             <td>
+              <button class="btn btn-patch" @click="$emit('patch', emp.id, emp.salary)">Patch</button>
               <button class="btn btn-danger" @click="handleDelete(emp.id)">Delete</button>
             </td>
           </tr>
@@ -152,6 +153,17 @@ function getDepartmentLabel(deptId) {
 
 .btn-danger:hover {
   background-color: #c82333;
+}
+
+.btn-patch {
+  background-color: #17a2b8;
+  color: white;
+  border-color: #17a2b8;
+  margin-right: 6px;
+}
+
+.btn-patch:hover {
+  background-color: #138496;
 }
 
 .table-container {

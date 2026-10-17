@@ -18,6 +18,7 @@
           <td>{{ dept.name }}</td>
           <td><code>{{ dept.code }}</code></td>
           <td>
+            <button @click="emit('patch-department', dept.id, dept.code)" class="btn">Patch</button>
             <button @click="emit('delete-department', dept.id)" class="btn btn-danger">Delete</button>
           </td>
         </tr>
@@ -28,7 +29,7 @@
 
 <script setup>
 defineProps(['departments'])
-const emit = defineEmits(['delete-department'])
+const emit = defineEmits(['delete-department', 'patch-department'])
 </script>
 
 <style scoped>

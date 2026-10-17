@@ -4,7 +4,8 @@ import { useCompanyStore } from './stores/companyStore'
 import DepartmentSection from './components/DepartmentSection.vue'
 import EmployeeSection from './components/EmployeeSection.vue'
 
-const store = useCompanyStore()
+const companyStore = useCompanyStore()
+const store = companyStore
 
 onMounted(() => {
   store.fetchDepartments()
@@ -19,12 +20,24 @@ function handleDeleteDepartment(id) {
   store.deleteDepartment(id)
 }
 
+async function handlePatchDept(id, code) {
+  const newCode = prompt('New code:', code)
+  if (!newCode || newCode === code) return
+  await companyStore.patchDepartment(id, { code: newCode })
+}
+
 function handleCreateEmployee(employee) {
   store.createEmployee(employee)
 }
 
 function handleDeleteEmployee(id) {
   store.deleteEmployee(id)
+}
+
+async function handlePatchEmp(id, salary) {
+  const newSalary = prompt('New salary:', salary)
+  if (!newSalary || Number(newSalary) === Number(salary)) return
+  await companyStore.patchEmployee(id, { salary: Number(newSalary) })
 }
 </script>
 
@@ -37,12 +50,14 @@ function handleDeleteEmployee(id) {
       :departments="store.departments"
       @create="handleCreateDepartment"
       @delete="handleDeleteDepartment"
+      @patch="handlePatchDept"
     />
     <EmployeeSection
       :employees="store.employees"
       :departments="store.departments"
       @create="handleCreateEmployee"
       @delete="handleDeleteEmployee"
+      @patch="handlePatchEmp"
     />
   </main>
 </template>

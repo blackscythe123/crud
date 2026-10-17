@@ -12,6 +12,7 @@
         <DepartmentList
           :departments="departments"
           @delete-department="deleteDepartment"
+          @patch-department="patchDepartment"
         />
       </section>
 
@@ -25,6 +26,7 @@
           :employees="employees"
           :departments="departments"
           @delete-employee="deleteEmployee"
+          @patch-employee="patchEmployee"
         />
       </section>
     </div>
@@ -91,6 +93,28 @@ const createEmployee = async (employeeData) => {
 const deleteEmployee = async (id) => {
   try {
     await api.delete(`/employees/${id}`)
+    await fetchEmployees()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const patchDepartment = async (id, currentCode) => {
+  const code = prompt('Enter new department code:', currentCode)
+  if (!code || code === currentCode) return
+  try {
+    await api.patch(`/departments/${id}`, { code })
+    await fetchDepartments()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const patchEmployee = async (id, currentSalary) => {
+  const salary = prompt('Enter new salary:', currentSalary)
+  if (!salary || Number(salary) === Number(currentSalary)) return
+  try {
+    await api.patch(`/employees/${id}`, { salary: Number(salary) })
     await fetchEmployees()
   } catch (error) {
     console.error(error)

@@ -82,6 +82,7 @@
             <td>${{ Number(emp.salary).toLocaleString() }}</td>
             <td class="action-cell">
               <router-link :to="'/company/employees/' + emp.id" class="btn btn-info">View</router-link>
+              <button @click="handlePatch(emp.id, emp.salary)" class="btn btn-warning">Patch</button>
               <button @click="deleteEmployee(emp.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -147,6 +148,18 @@ const deleteEmployee = async (id) => {
     await fetchEmployees()
   } catch (err) {
     alert('Failed to delete employee')
+  }
+}
+
+const handlePatch = async (id, salary) => {
+  const newSalary = prompt('New salary:', salary)
+  if (newSalary !== null && newSalary !== '') {
+    try {
+      await api.patch(`/employees/${id}`, { salary: Number(newSalary) })
+      await fetchEmployees()
+    } catch (err) {
+      alert('Failed to patch employee')
+    }
   }
 }
 
@@ -258,6 +271,13 @@ select:focus {
 
 .btn-danger {
   background-color: #ef4444;
+  color: #ffffff;
+  font-size: 0.875rem;
+  padding: 6px 12px;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
   color: #ffffff;
   font-size: 0.875rem;
   padding: 6px 12px;

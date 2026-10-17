@@ -38,6 +38,17 @@ const handleRemoveDepartment = async (id) => {
   }
 }
 
+const handlePatch = async (id, code) => {
+  const newCode = prompt('New code:', code)
+  if (!newCode || newCode === code) return
+  try {
+    await api.patch(`/departments/${id}`, { code: newCode })
+    await fetchDepartments()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 onMounted(() => {
   fetchDepartments()
 })
@@ -56,6 +67,7 @@ onMounted(() => {
         :title="dept.name"
         :subtitle="dept.code"
         @remove="handleRemoveDepartment"
+        @patch="handlePatch(dept.id, dept.code)"
       />
     </div>
   </div>

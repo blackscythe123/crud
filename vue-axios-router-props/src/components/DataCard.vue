@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps(['title', 'subtitle', 'id'])
-const emit = defineEmits(['remove'])
+const emit = defineEmits(['remove', 'patch'])
 
 const handleRemove = () => {
   emit('remove', props.id)
@@ -13,7 +13,10 @@ const handleRemove = () => {
       <h4>{{ title }}</h4>
       <p>{{ subtitle }}</p>
     </div>
-    <button class="btn-remove" @click="handleRemove">Delete</button>
+    <div class="card-actions">
+      <button class="btn-patch" @click="$emit('patch', id)">Patch</button>
+      <button class="btn-remove" @click="handleRemove">Delete</button>
+    </div>
   </div>
 </template>
 
@@ -37,6 +40,22 @@ const handleRemove = () => {
   margin: 0;
   font-size: 14px;
   color: #718096;
+}
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-patch {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.btn-patch:hover {
+  background-color: #2b6cb0;
 }
 .btn-remove {
   background-color: #e53e3e;

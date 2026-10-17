@@ -70,6 +70,17 @@ const handleRemoveEmployee = async (id) => {
   }
 }
 
+const handlePatch = async (id, salary) => {
+  const newSalary = prompt('New salary:', salary)
+  if (!newSalary || Number(newSalary) === Number(salary)) return
+  try {
+    await api.patch(`/employees/${id}`, { salary: Number(newSalary) })
+    await fetchEmployees()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const getSubtitle = (emp) => {
   const dept = departments.value.find(d => d.id === emp.departmentId)
   const deptLabel = dept ? `${dept.name} (${dept.code})` : emp.departmentId
@@ -95,6 +106,7 @@ onMounted(() => {
         :title="emp.name"
         :subtitle="getSubtitle(emp)"
         @remove="handleRemoveEmployee"
+        @patch="handlePatch(emp.id, emp.salary)"
       />
     </div>
   </div>

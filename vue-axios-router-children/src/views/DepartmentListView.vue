@@ -54,6 +54,7 @@
             <td>{{ dept.name }}</td>
             <td><code>{{ dept.code }}</code></td>
             <td>
+              <button @click="handlePatch(dept.id, dept.code)" class="btn btn-warning">Patch</button>
               <button @click="deleteDepartment(dept.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -102,6 +103,18 @@ const deleteDepartment = async (id) => {
     await fetchDepartments()
   } catch (err) {
     alert('Failed to delete department')
+  }
+}
+
+const handlePatch = async (id, code) => {
+  const newCode = prompt('New code:', code)
+  if (newCode) {
+    try {
+      await api.patch(`/departments/${id}`, { code: newCode })
+      await fetchDepartments()
+    } catch (err) {
+      alert('Failed to patch department')
+    }
   }
 }
 
@@ -195,6 +208,12 @@ input:focus {
 .btn-danger {
   background-color: #ef4444;
   color: #ffffff;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  color: #ffffff;
+  margin-right: 8px;
 }
 
 .data-table {

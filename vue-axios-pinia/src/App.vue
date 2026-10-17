@@ -70,6 +70,7 @@
                 <td>{{ dept.name }}</td>
                 <td><code>{{ dept.code }}</code></td>
                 <td>
+                  <button @click="handlePatchDepartment(dept.id, dept.code)" class="btn">Patch</button>
                   <button @click="companyStore.deleteDepartment(dept.id)" class="btn btn-danger">Delete</button>
                 </td>
               </tr>
@@ -149,6 +150,7 @@
                 <td>{{ getDepartmentName(emp.departmentId) }}</td>
                 <td>${{ Number(emp.salary).toLocaleString() }}</td>
                 <td>
+                  <button @click="handlePatchEmployee(emp.id, emp.salary)" class="btn">Patch</button>
                   <button @click="companyStore.deleteEmployee(emp.id)" class="btn btn-danger">Delete</button>
                 </td>
               </tr>
@@ -200,6 +202,18 @@ const handleCreateEmployee = async () => {
   empForm.email = ''
   empForm.departmentId = ''
   empForm.salary = ''
+}
+
+const handlePatchDepartment = async (id, currentCode) => {
+  const code = prompt('Enter new department code:', currentCode)
+  if (!code || code === currentCode) return
+  await companyStore.patchDepartment(id, { code })
+}
+
+const handlePatchEmployee = async (id, currentSalary) => {
+  const salary = prompt('Enter new salary:', currentSalary)
+  if (!salary || Number(salary) === Number(currentSalary)) return
+  await companyStore.patchEmployee(id, { salary: Number(salary) })
 }
 
 const getDepartmentName = (deptId) => {

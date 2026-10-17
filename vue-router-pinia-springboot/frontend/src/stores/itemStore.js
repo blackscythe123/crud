@@ -32,6 +32,11 @@ export const useItemStore = defineStore('item', {
         this.currentItem = null;
       }
       await this.fetchItems();
+    },
+    async patchItem(id, data) {
+      const res = await ItemService.patch(id, data);
+      await this.fetchItems();
+      return res.data;
     }
   }
 });

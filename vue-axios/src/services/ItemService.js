@@ -17,5 +17,11 @@ export default {
   },
   delete(id) {
     return axios.delete(API_URL + '/' + id)
+  },
+  patch(id, data) {
+    return axios.patch(API_URL + '/' + id, data)
+  },
+  patchItem(id, partial) {
+    return axios.patch(API_URL + '/' + id, partial)
   }
 }

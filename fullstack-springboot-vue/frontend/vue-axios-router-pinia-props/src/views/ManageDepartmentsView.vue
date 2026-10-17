@@ -4,7 +4,8 @@ import { useCompanyStore } from '../stores/companyStore'
 import EntityTable from '../components/EntityTable.vue'
 import EntityForm from '../components/EntityForm.vue'
 
-const store = useCompanyStore()
+const companyStore = useCompanyStore()
+const store = companyStore
 
 const departmentFields = [
   { key: 'name', label: 'Department Name', type: 'text', placeholder: 'e.g. Finance' },
@@ -31,6 +32,13 @@ const handleDeleteDepartment = (id) => {
   store.removeDepartment(id)
 }
 
+const handlePatch = (item) => {
+  const code = prompt('New code:', item.code)
+  if (code) {
+    companyStore.patchDepartment(item.id, { code })
+  }
+}
+
 onMounted(() => {
   store.fetchDepartments()
 })
@@ -49,6 +57,7 @@ onMounted(() => {
       :columns="departmentColumns"
       title="All Departments"
       @delete-item="handleDeleteDepartment"
+      @patch-item="handlePatch"
     />
   </div>
 </template>

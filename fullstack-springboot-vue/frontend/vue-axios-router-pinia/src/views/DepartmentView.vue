@@ -50,6 +50,7 @@
               <td>{{ dept.name }}</td>
               <td><code>{{ dept.code }}</code></td>
               <td>
+                <button @click="handlePatchDepartment(dept.id, dept.code)" class="btn btn-warning">Patch</button>
                 <button @click="handleDelete(dept.id)" class="btn btn-danger">Delete</button>
               </td>
             </tr>
@@ -82,6 +83,13 @@ const handleSubmit = async () => {
 
 const handleDelete = async (id) => {
   await companyStore.deleteDepartment(id)
+}
+
+const handlePatchDepartment = async (id, code) => {
+  const newCode = prompt('New code:', code)
+  if (newCode) {
+    await companyStore.patchDepartment(id, { code: newCode })
+  }
 }
 
 onMounted(() => {
@@ -170,6 +178,18 @@ onMounted(() => {
 
 .btn-danger:hover {
   background-color: #b8282a;
+}
+
+.btn-warning {
+  background-color: #f0ad4e;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.btn-warning:hover {
+  background-color: #ec971f;
 }
 
 .table-wrapper {

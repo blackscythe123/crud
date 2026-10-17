@@ -22,6 +22,7 @@
           <td>{{ getDepartmentName(emp.departmentId) }}</td>
           <td>${{ Number(emp.salary).toLocaleString() }}</td>
           <td>
+            <button @click="emit('patch-employee', emp.id, emp.salary)" class="btn">Patch</button>
             <button @click="emit('delete-employee', emp.id)" class="btn btn-danger">Delete</button>
           </td>
         </tr>
@@ -32,7 +33,7 @@
 
 <script setup>
 const props = defineProps(['employees', 'departments'])
-const emit = defineEmits(['delete-employee'])
+const emit = defineEmits(['delete-employee', 'patch-employee'])
 
 const getDepartmentName = (deptId) => {
   if (!props.departments) return `Dept #${deptId}`

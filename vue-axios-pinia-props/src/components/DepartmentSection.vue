@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const props = defineProps(['departments'])
-const emit = defineEmits(['create', 'delete'])
+const emit = defineEmits(['create', 'delete', 'patch'])
 
 const name = ref('')
 const code = ref('')
@@ -54,6 +54,7 @@ function handleDelete(id) {
             <td>{{ dept.name }}</td>
             <td>{{ dept.code }}</td>
             <td>
+              <button class="btn btn-patch" @click="$emit('patch', dept.id, dept.code)">Patch</button>
               <button class="btn btn-danger" @click="handleDelete(dept.id)">Delete</button>
             </td>
           </tr>
@@ -123,6 +124,17 @@ function handleDelete(id) {
 
 .btn-danger:hover {
   background-color: #c82333;
+}
+
+.btn-patch {
+  background-color: #17a2b8;
+  color: white;
+  border-color: #17a2b8;
+  margin-right: 6px;
+}
+
+.btn-patch:hover {
+  background-color: #138496;
 }
 
 .table-container {

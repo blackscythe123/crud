@@ -14,7 +14,7 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['delete-item'])
+const emit = defineEmits(['delete-item', 'patch-item'])
 
 const getColKey = (col) => (typeof col === 'object' && col.key ? col.key : col)
 const getColLabel = (col) => (typeof col === 'object' && col.label ? col.label : col)
@@ -42,6 +42,7 @@ const handleDelete = (id) => {
             {{ item[getColKey(col)] }}
           </td>
           <td>
+            <button @click="$emit('patch-item', item)" class="btn-patch">Patch</button>
             <button class="btn-delete" @click="handleDelete(item.id)">Delete</button>
           </td>
         </tr>
@@ -72,6 +73,19 @@ const handleDelete = (id) => {
 .entity-table th {
   background-color: #f6f8fa;
   font-weight: 600;
+}
+.btn-patch {
+  background-color: #0969da;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-right: 6px;
+}
+.btn-patch:hover {
+  background-color: #0856b3;
 }
 .btn-delete {
   background-color: #cf222e;
